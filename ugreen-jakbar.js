@@ -5,21 +5,20 @@ let scrape = async () => {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
     
-    await page.goto('https://www.tokopedia.com/');
+    await page.goto('https://www.tokopedia.com/ugreen-jakbar');
     await autoScroll(page);
-    await page.waitFor(6000);
-    // unique id button btnHomeRecomLoadMore
+    await page.waitFor('div.css-1sn1xa2');
     // Scrape
     
     const result = await page.evaluate(()=> {
         let data = [];
-        let elements = document.querySelectorAll('[data-testid="divProduct"]');
+        let elements = document.querySelectorAll('div.css-1sn1xa2');
 
         for (var element of elements) {
-            let picture = element.querySelector('[data-testid="imgHomeProductRecom"] > img').getAttribute('src');
-            let title = element.querySelector('[data-testid="lblHomeProductNameRecom"]').innerText;
-            let price = element.querySelector('[data-testid="lblHomeProductPriceRecom"]').innerText;
-            let link = element.querySelector('.css-zimbi > a').getAttribute('href');
+            let picture = element.querySelector('[data-testid="imgProduct"] > img').getAttribute('src');
+            let title = element.querySelector('[data-testid="linkProductName"]').innerText;
+            let price = element.querySelector('[data-testid="linkProductPrice"]').innerText;
+            let link = element.querySelector('.css-974ipl > a').getAttribute('href');
             data.push({picture, title, price, link});
         }
         

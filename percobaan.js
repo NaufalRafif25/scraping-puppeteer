@@ -7,23 +7,17 @@ let scrape = async () => {
     
     await page.goto('https://www.tokopedia.com/');
     await autoScroll(page);
-    await page.waitFor(6000);
-    // unique id button btnHomeRecomLoadMore
+    await page.waitFor(3000);
     // Scrape
     
     const result = await page.evaluate(()=> {
-        let data = [];
-        let elements = document.querySelectorAll('[data-testid="divProduct"]');
-
-        for (var element of elements) {
-            let picture = element.querySelector('[data-testid="imgHomeProductRecom"] > img').getAttribute('src');
-            let title = element.querySelector('[data-testid="lblHomeProductNameRecom"]').innerText;
-            let price = element.querySelector('[data-testid="lblHomeProductPriceRecom"]').innerText;
-            let link = element.querySelector('.css-zimbi > a').getAttribute('href');
-            data.push({picture, title, price, link});
-        }
+        let title = document.querySelector('[data-testid="lblHomeProductNameRecom"]').innerText;
+        let price = document.querySelector('[data-testid="lblHomeProductPriceRecom"]').innerText;
         
-        return data;
+        return {
+            title,
+            price
+        }
     });
 
     browser.close();

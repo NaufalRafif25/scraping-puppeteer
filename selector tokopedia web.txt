@@ -1,0 +1,5 @@
+per-product = css-11pqdpv.product
+gambar = success fade
+nama = css-1b6t4dn
+harga = css-1ksb19c
+link = pcv3__info-content css-gwkf0u
