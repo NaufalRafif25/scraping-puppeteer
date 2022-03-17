@@ -20,7 +20,4 @@ const puppeteer = require('puppeteer');
 
     // Navigate to some website e.g Our Code World
     await page.goto('http://ourcodeworld.com');
-
-    // Do your stuff
-    // ...
 })();
