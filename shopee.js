@@ -13,8 +13,10 @@ let scrape = async () => {
     
     await page.goto('https://shopee.co.id/');
 
-    await page.waitForSelector('.home-popup')
-    await page.click('div.shopee-popup__close-btn > svg');
+    document.querySelector("#main > div > div:nth-child(3) > div.home-page > shopee-banner-popup-stateful").shadowRoot.querySelector("div > div > div > div > div").click()
+
+    // await page.waitForSelector('.home-popup')
+    // await page.click('div.shopee-popup__close-btn > svg');
     await autoScroll(page);
     await page.waitFor(6000);
     // Scrape
