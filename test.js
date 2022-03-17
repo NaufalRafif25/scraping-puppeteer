@@ -1,70 +1,31 @@
-const puppeteer = require('puppeteer');
+// we find the Login btn using the innerText comparison because the selector used for the btn might be unstable
+await page.evaluate(() => {
+    const btns = [...document.querySelector('.HmktE').querySelectorAll('button')]
+    btns.forEach(function (btn) {
+     if (btn.innerText === 'Log In') { btn.click() }
+    })
+   })
 
-let scrape = async () => {
-    const browser = await puppeteer.launch({headless: false});
-    const page = await browser.newPage();
+//    get page title and url
+const puppeteer = require('puppeteer')
+
+describe("Home Page TestSuite",()=>{
+     it("Handle Input and buuton in puppeteer",async()=>{
+    const browser = await puppeteer.launch({
+      headless:false,
+      slowMo:100
+    })
+    const page = await browser.newPage()
+    await page.goto("https://devexpress.github.io/testcafe/example/");
+    const title = await page.title();
+    const url = await page.url(); 
     
-    await page.goto('https://shopee.co.id/');
-
-    await page.waitForSelector('div.home-popup');            // wait object load
-    const link = await page.$('.home-popup__close-button');             // declare object
-
-    const newPagePromise = new Promise(x => page.once('popup', x));
-
-    await link.click();                        // click, a new tab  opens
-    const newPage = await newPagePromise; 
-    await newPage.close();             // close it, for example
-
-    // const xPathRandom = '/html[1]/body[1]';
-    // const element = (await page.$x(xPathRandom))[0];
-    // element.click();
-    // await page.waitForXPath(xPathRandom);
-
-    // home-popup__close-button
-    // await page.waitForSelector('.home-popup')
-    // await page.click('.shopee-popup__close-btn');
-    await autoScroll(page);
-    await page.waitFor(6000);
-    // Scrape
+    console.log("Page Title : "+title);
+    console.log("Page URL : "+url);
     
-    const result = await page.evaluate(()=> {
-        let data = [];
-        let elements = document.querySelectorAll('._2x8AVA');
+    await page.waitFor(5000);
+    await page.close();
 
-        for (var element of elements) {
-            let picture = element.querySelector('._25_r8I ggJllv > img').getAttribute('src');
-            let title = element.querySelector('._10Wbs- _3IqNCf').innerText;
-            let price = element.querySelector('._19hRcI').innerText;
-            let link = element.querySelector('._2x8AVA > a').getAttribute('href');
-            data.push({picture, title, price, link});
-        }
-        
-        return data;
+  });
+
     });
-
-    browser.close();
-    return result;
-};
-
-async function autoScroll(page){
-    await page.evaluate(async () => {
-        await new Promise((resolve, reject) => {
-            var totalHeight = 0;
-            var distance = 100;
-            var timer = setInterval(() => {
-                var scrollHeight = document.body.scrollHeight;
-                window.scrollBy(0, distance);
-                totalHeight += distance;
-
-                if(totalHeight >= scrollHeight){
-                    clearInterval(timer);
-                    resolve();
-                }
-            }, 100);
-        });
-    });
-}
-
-scrape().then((value) => {
-    console.log(value); // Success!
-})

@@ -21,3 +21,12 @@ const puppeteer = require('puppeteer');
     // Navigate to some website e.g Our Code World
     await page.goto('http://ourcodeworld.com');
 })();
+
+// const xPathRandom = '/html[1]/body[1]';
+    // const element = (await page.$x(xPathRandom))[0];
+    // element.click();
+    // await page.waitForXPath(xPathRandom);
+
+    // home-popup__close-button
+    // await page.waitForSelector('.home-popup')
+    // await page.click('.shopee-popup__close-btn');
