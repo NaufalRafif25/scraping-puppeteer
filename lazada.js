@@ -14,8 +14,8 @@ let scrape = async () => {
     await page.goto('https://www.lazada.co.id/');
     await autoScroll(page);
     await page.waitFor('div.card-jfy-item-wrapper');
-    // Scrape
     
+    //  ===== Scrape
     const result = await page.evaluate(()=> {
         let data = [];
         let elements = document.querySelectorAll('div.card-jfy-item-wrapper');
