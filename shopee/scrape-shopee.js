@@ -25,14 +25,15 @@ let scrape = async () => {
     // ===== Scrape
     const result = await page.evaluate(()=> {
         let data = [];
+        /// Jangan gunakan selector yang mengandung div._193wCc._3cVWns ( element class acak )
+        /// Ubah dengan div:nth-child(i), dimana i adalah posisi element yang ingin di scrape
         let elements = document.querySelectorAll('#main > div > div:nth-child(3) > div.home-page > div.container > div.section-below-the-fold > div.section-recommend-products-wrapper > div > div > div.stardust-tabs-panels > section:nth-child(1) > div > div');
         
         for (var element of elements) {
             let image = element.querySelector('a > div > div > div > img');
-            // let link = "https://shopee.co.id/"+element.querySelector('._2x8AVA').getAttribute('href');
-            // let title = element.querySelector('._10Wbs-_3IqNCf').innerText;
-            // let price = element.querySelector('span._19hRcI').innerText;
 
+            /// Cek kondisi jika image tidak ada
+            /// kemarin error disini, image nya null tapi kamu masih mau akses
             if(image == null) continue;
             let imageUrl = image.getAttribute('src');
             
