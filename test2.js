@@ -10,7 +10,6 @@ let scrape = async () => {
         // Remove the timeout
         timeout: 0
     });
-    await page.goto('https://www.lazada.co.id/');
 
     // ===== click item to the page
     await autoScroll(page);
