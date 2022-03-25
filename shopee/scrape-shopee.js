@@ -9,14 +9,14 @@ let scrape = async () => {
         // Remove the timeout
         timeout: 0
     });
-    
-    await page.goto('https://shopee.co.id/');
+
     await page.waitForSelector("#main > div > div:nth-child(3) > div.home-page > shopee-banner-popup-stateful");
 
     // ===== Close popup
     await page.evaluate(() => {
         document.querySelector("#main > div > div:nth-child(3) > div.home-page > shopee-banner-popup-stateful").shadowRoot.querySelector("div > div > div > div > div").click();
-       })
+       });
+       await page.waitFor(6000);
     //  ===== End popup
 
     await autoScroll(page);
@@ -31,13 +31,19 @@ let scrape = async () => {
         
         for (var element of elements) {
             let image = element.querySelector('a > div > div > div > img');
+            let link =  element.querySelector('a');
+            let title = element.querySelector('a > div > div > div > div > div > div');
+            let price = element.querySelector('a > div > div > div > div > div > span:nth-child(2)');
 
             /// Cek kondisi jika image tidak ada
             /// kemarin error disini, image nya null tapi kamu masih mau akses
-            if(image == null) continue;
+            if(image == null)continue;
             let imageUrl = image.getAttribute('src');
+            let linkUrl = "https://shopee.co.id/"+link.getAttribute('href');
+            let titleText = title.innerText;
+            let priceText = price.innerText;
             
-            data.push({imageUrl});
+            data.push({imageUrl, linkUrl, titleText, priceText});
         }
         return data;
     });
