@@ -10,24 +10,25 @@ let scrape = async () => {
         timeout: 0
     });
 
-    await page.waitForSelector("#main > div > div:nth-child(3) > div.home-page > shopee-banner-popup-stateful");
+    // await page.waitForSelector("#main > div > div:nth-child(3) > div.home-page > shopee-banner-popup-stateful");
+    await page.waitFor(5000);
 
     // ===== Close popup
     await page.evaluate(() => {
-        document.querySelector("#main > div > div:nth-child(3) > div.home-page > shopee-banner-popup-stateful").shadowRoot.querySelector("div > div > div > div > div").click();
+        document.querySelector("#main > div > div:nth-child(4) > div > div > shopee-banner-popup-stateful").shadowRoot.querySelector("div > div > div > div > div").click();
        });
        await page.waitFor(6000);
     //  ===== End popup
 
     await autoScroll(page);
-    await page.waitFor(6000);
+    // await page.waitFor(6000);
     
     // ===== Scrape
     const result = await page.evaluate(()=> {
         let data = [];
         /// Jangan gunakan selector yang mengandung div._193wCc._3cVWns ( element class acak )
         /// Ubah dengan div:nth-child(i), dimana i adalah posisi element yang ingin di scrape
-        let elements = document.querySelectorAll('#main > div > div:nth-child(3) > div.home-page > div.container > div.section-below-the-fold > div.section-recommend-products-wrapper > div > div > div.stardust-tabs-panels > section:nth-child(1) > div > div');
+        let elements = document.querySelectorAll('#main > div > div:nth-child(4) > div > div > div.container > div.section-below-the-fold > div.section-recommend-products-wrapper > div > div > div.stardust-tabs-panels > section:nth-child(1) > div > div:nth-child(1)');
         
         for (var element of elements) {
             let image = element.querySelector('a > div > div > div > img');
